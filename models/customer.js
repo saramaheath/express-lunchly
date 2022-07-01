@@ -64,8 +64,7 @@ class Customer {
                   phone,
                   notes
            FROM customers
-           WHERE first_name ILIKE $1 or last_name ILIKE $1 or
-            CONCAT(first_name, ' ', last_name) ILIKE $1`,
+           WHERE CONCAT(first_name, ' ', last_name) ILIKE $1`,
       [`%${name}%`]
     );
     return results.rows.map((c) => new Customer(c));
