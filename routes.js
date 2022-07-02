@@ -37,9 +37,19 @@ router.post("/add/", async function (req, res, next) {
   return res.redirect(`/${customer.id}/`);
 });
 
-/** Show a customer, given their ID. */
+/** shows top 10 customers based on number of reservations */
+router.get("/top-ten/", async function (req, res, next) {
+  console.log('inside top ten route!!!!!!!!!!!!!!!!!!!!!!!!!!!1');
+  const customers = await Reservation.getBestCustomers();
+  debugger;
+  return res.render("customer_list.html", { customers })
+  
+})
 
+/** Show a customer, given their ID. */
+// /top-ten
 router.get("/:id/", async function (req, res, next) {
+  console.log('are we in customer id route???????????');
   const customer = await Customer.get(req.params.id);
 
   const reservations = await customer.getReservations();
@@ -86,5 +96,7 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
 
   return res.redirect(`/${customerId}/`);
 });
+
+
 
 module.exports = router;
